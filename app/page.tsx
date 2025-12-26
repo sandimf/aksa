@@ -46,7 +46,8 @@ const FilmWebsite = () => {
             // PENTING: Memberi tahu Next.js bahwa gambar ini mengambil 100% lebar viewport
             sizes="100vw" 
             quality={85} // Kualitas sedikit diturunkan untuk size yang lebih ringan
-          />
+             placeholder="blur"
+            />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
         </div>
 
