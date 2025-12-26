@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-// Hapus 'Menu' dari import karena tidak digunakan dalam kode
 import { Play, ChevronLeft, ChevronRight, MapPin, Phone, Mail } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -39,7 +38,7 @@ const FilmWebsite = () => {
       <div className="relative h-[100vh] min-h-[100vh]">
         <div className="absolute inset-0">
           <Image
-            src="/cover_maira.jpg"
+            src="/cover_maira.webp"
             fill
             alt="Teman Tegar Maira"
             className="object-cover"
