@@ -1,200 +1,153 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Play, ChevronLeft, ChevronRight, MapPin, Phone, Mail } from 'lucide-react';
-// Hapus import Image dari next/image
-// import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import {
+  Play,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-// 🚀 Tambahkan import dari ImageKit SDK
-import { IKContext, IKImage, IKImageProps } from 'imagekitio-react';
+// ✅ ImageKit SDK resmi terbaru
+import { ImageKitProvider, IKImage } from "@imagekit/react";
 
-const FilmWebsite = () => {
+export default function FilmWebsite() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  
-  // URL Endpoint ImageKit Anda
-  const imageKitUrlEndpoint = "https://ik.imagekit.io/1iae3lh39/";
-  
-  const films = [
-    { title: "Negeri Dongeng", type: "NEGERI DONGENG", status: "GET TICKETS" },
-    { title: "Nona", type: "NONA", status: "WATCH TRAILER" },
-    { title: "Tegar", type: "TEGAR", status: "WATCH TRAILER" },
-    { title: "Teman Tegar Maira", type: "TEMAN TEGAR MAIRA", status: "GET TICKETS" },
-    { title: "Alang-Alang", type: "ALANG-ALANG", status: "WATCH TRAILER" }
-  ];
 
-  // Catatan: Jika gambar Anda ada di root ImageKit (misal: https://ik.imagekit.io/1iae3lh39/poster-ng.jpg), 
-  // maka 'image' akan menjadi 'path'.
+  const imageKitUrlEndpoint = "https://ik.imagekit.io/1iae3lh39/";
+
   const inReleaseMovies = [
     { title: "Negeri Dongeng", image: "poster-ng.jpg", status: "NEGERI DONGENG" },
     { title: "Nona", image: "poster-n.jpg", status: "NONA" },
     { title: "Tegar", image: "poster-t.jpg", status: "TEGAR" },
     { title: "Maira", image: "poster-tt.jpg", status: "TEMAN TEGAR MAIRA" },
-    { title: "Alang-Alang", image: "poster-a.jpg", status: "ALANG-ALANG" }
+    { title: "Alang-Alang", image: "poster-a.jpg", status: "ALANG-ALANG" },
   ];
 
   const trailers = [
-    { title: "NEGERI DONGENG", videoId: "50aKtuwUuV4" }, // Replace with actual YouTube video IDs
+    { title: "NEGERI DONGENG", videoId: "50aKtuwUuV4" },
     { title: "NONA", videoId: "SO1NGdWGASY" },
     { title: "TEGAR", videoId: "qARKg4kVxLs" },
     { title: "TEMAN TEGAR MAIRA", videoId: "fgLbajva8k4" },
-    { title: "ALANG-ALANG", videoId: "dQw4w9WgXcQ" }
+    { title: "ALANG-ALANG", videoId: "dQw4w9WgXcQ" },
   ];
 
   return (
-    // 🚀 Bungkus seluruh komponen dengan IKContext
-    <IKContext urlEndpoint={imageKitUrlEndpoint}>
+    <ImageKitProvider urlEndpoint={imageKitUrlEndpoint}>
       <div className="bg-black text-white min-h-screen">
-        
-        {/* 🚀 1. Hero Section (LCP Image Optimization) */}
-        <div className="relative h-[100vh] min-h-[100vh]">
-          <div className="absolute inset-0">
-            {/* PERUBAHAN: Ganti Image dari next/image ke IKImage */}
-            <IKImage
-              path="cover_maira.webp" // Ganti src menjadi path (sesuaikan dengan lokasi file Anda di ImageKit)
-              alt="Teman Tegar Maira"
-              className="object-cover w-full h-full" // Tambahkan w-full h-full karena IKImage tidak otomatis mengisi seperti Image fill
-              // ImageKit sudah mengurus lazy loading, responsif, dan kualitas secara default atau melalui tr:
-              // Catatan: Untuk LCP, Anda perlu memastikan gambar dimuat dengan cepat.
-              // Properti berikut meniru perilaku fill dari Next/Image, meskipun mungkin memerlukan gaya tambahan.
-              lqip={{active: true}} // Low Quality Image Placeholder
-              // tr="w-100vw,q-85" // Contoh transformasi: lebar 100vw, kualitas 85
-              // Jika Anda ingin meniru 'fill', Anda harus mengatur dimensi pada div parent atau menggunakan CSS. 
-              // Di sini kita gunakan w-full h-full pada className.
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
-          </div>
 
+        {/* HERO */}
+        <section className="relative h-screen">
+          <IKImage
+            path="cover_maira.webp"
+            alt="Teman Tegar Maira"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
 
-          {/* Bottom Info Bar (Tidak diubah, tidak ada gambar) */}
-          <div className="absolute bottom-8 left-0 right-0">
-            <div className="container mx-auto px-6">
-              <div className="bg-black/60 backdrop-blur-sm rounded-full px-4 md:px-8 py-4 flex justify-between items-center overflow-hidden">
-                <button className="flex-shrink-0"><ChevronLeft className="w-6 h-6" /></button>
-                <div className="flex gap-6 md:gap-12 text-xs md:text-sm overflow-x-auto scrollbar-hide flex-1 justify-center px-2">
-                  <div className="flex-shrink-0 text-center">
-                    <div className="text-gray-400">Negeri Dongeng</div>
-                    <div>Coming Soon</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="text-gray-400">Nona</div>
-                    <div>In Theaters</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="text-gray-400">Tegar</div>
-                    <div>Coming Soon</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="text-gray-400 whitespace-nowrap">Teman Tegar Maira</div>
-                    <div className="whitespace-nowrap">Coming Soon in 2025</div>
-                  </div>
-                </div>
-                <button className="flex-shrink-0"><ChevronRight className="w-6 h-6" /></button>
-              </div>
-            </div>
-          </div>
-
-          {/* Side Text (Tidak diubah) */}
-          <div className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2">
-            <div className="text-xl md:text-2xl font-bold">
-              <div>COMING SOON IN THEATRES</div>
-              <div className="text-4xl md:text-6xl mt-4">TEMAN</div>
-              <div className="text-4xl md:text-6xl">TEGAR</div>
-              <div className="4xl md:text-6xl">MAIRA</div>
-              <div className="mt-6 flex gap-4 mr-24">
-                <button className="bg-blue-600 text-white px-6 md:px-8 py-3 rounded-full text-sm md:text-base hover:bg-blue-700">
-                  GET TICKETS
-                </button>
-                <button className="bg-white/20 text-white px-6 md:px-8 py-3 rounded-full text-sm md:text-base hover:bg-white/30">
-                  WATCH TRAILER
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 🚀 2. In Release Section (Background & Poster Optimizations) */}
-        <section className="py-16 px-6 relative">
-          <div className="absolute inset-0 opacity-30">
-            {/* PERUBAHAN: Ganti Image dari next/image ke IKImage */}
-            <IKImage 
-              path="bg.jpg" // Ganti src menjadi path
-              alt="Background" 
-              className="w-full h-full object-cover" 
-              // Transformasi untuk kualitas rendah (q-60)
-              tr="q-60" 
-            />
-          </div>
-          <div className="relative">
-            {/* Mobile: Title at top */}
-            <h2 className="text-4xl font-bold mb-8 md:absolute md:left-8 md:top-8 md:z-10 md:mb-0">In <br className="hidden md:block"/>Release</h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:ml-48">
-              {inReleaseMovies.map((movie, idx) => (
-                <div key={idx} className="group cursor-pointer">
-                  <div className="bg-gray-800 rounded-lg overflow-hidden mb-4 aspect-[2/3] relative">
-                    {/* PERUBAHAN: Ganti Image dari next/image ke IKImage */}
-                    <IKImage 
-                      path={movie.image} // Ganti src menjadi path
-                      alt={movie.title} 
-                      className="object-cover w-full h-full"
-                      // Gunakan transformasi untuk responsivitas/sizing yang diurus ImageKit
-                      // Contoh: untuk layout grid, kita bisa menargetkan lebar maksimum per kolom.
-                      tr="w-400" 
-                    />
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                      <Play className="w-16 h-16" />
-                    </div>
-                  </div>
-                  <div className="text-sm mb-2">{movie.status}</div>
-                  <div className="flex gap-2 px-1">
-                    <Button className="flex-1 bg-blue-600 text-white py-1 px-2 rounded-full text-xs hover:bg-blue-700">
-                      WATCH AT HOME
-                    </Button>
-                    <Button className="flex-1 bg-white/20 text-white py-1 px-2 rounded-full text-xs hover:bg-white/30">
-                      WATCH TRAILER
-                    </Button>
-                  </div>
-                </div>
-              ))}
+          <div className="absolute bottom-8 left-0 right-0 px-6">
+            <div className="bg-black/60 rounded-full px-6 py-4 flex items-center justify-between">
+              <ChevronLeft />
+              <div className="text-sm">COMING SOON IN THEATRES</div>
+              <ChevronRight />
             </div>
           </div>
         </section>
 
-        {/* 🚀 3. Trailers Section (Optimasi Iframe, tidak ada perubahan IKImage) */}
-        <section className="py-16 px-6 bg-gray-900">
-          <h2 className="text-4xl font-bold mb-8">Trailers and Featured Videos</h2>
-          <div className="flex gap-2 mb-8">
-            <button className="bg-white text-black px-4 py-2 rounded-full text-sm">
-              Universall on YouTube
-            </button>
+        {/* IN RELEASE */}
+        <section className="relative py-16 px-6">
+          <div className="absolute inset-0 opacity-30">
+            <IKImage
+              path="bg.jpg"
+              alt="Background"
+              className="w-full h-full object-cover"
+              transformation={[{ quality: 60 }]}
+            />
           </div>
-          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {trailers.map((trailer, idx) => (
-              <div key={idx} className="relative">
-                <div className="bg-gray-800 rounded-lg overflow-hidden aspect-video relative">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${trailer.videoId}`}
-                    title={trailer.title}
-                    className="w-full h-full"
-                    frameBorder="0"
-                    // Tambahkan lazy loading native untuk iframe (membantu performa)
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                  <div className="absolute top-2 left-2 bg-black/80 px-2 py-1 text-xs rounded">
-                    OFFICIAL TRAILER
+
+          <h2 className="relative text-4xl font-bold mb-8">
+            In Release
+          </h2>
+
+          <div className="relative grid grid-cols-2 md:grid-cols-5 gap-6">
+            {inReleaseMovies.map((movie, i) => (
+              <div key={i} className="group">
+                <div className="relative aspect-[2/3] overflow-hidden rounded-lg">
+                  <IKImage
+                    path={movie.image}
+                    alt={movie.title}
+                    className="w-full h-full object-cover"
+                    transformation={[{ width: 400 }]}
+                  />
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                    <Play size={48} />
                   </div>
                 </div>
-                <div className="mt-2 text-sm">{trailer.title}</div>
+
+                <div className="text-sm mt-2">{movie.status}</div>
+                <div className="flex gap-2 mt-2">
+                  <Button size="sm">WATCH</Button>
+                  <Button size="sm" variant="secondary">
+                    TRAILER
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* 🚀 4. Featured Movies (Image Optimization) */}
-        <section className="py-16 px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* TRAILERS */}
+        <section className="py-16 px-6 bg-gray-900">
+          <h2 className="text-4xl font-bold mb-8">
+            Trailers & Videos
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {trailers.map((t, i) => (
+              <div key={i}>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${t.videoId}`}
+                    className="w-full h-full"
+                    loading="lazy"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="mt-2 text-sm">{t.title}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer className="relative py-12 px-6">
+          <div className="absolute inset-0">
+            <IKImage
+              path="bg-footer.jpg"
+              alt="Footer"
+              className="w-full h-full object-cover"
+              transformation={[{ quality: 60 }]}
+            />
+            <div className="absolute inset-0 bg-black/70" />
+          </div>
+
+          <div className="relative">
+            <IKImage
+              path="logo_aksa.png"
+              alt="Aksa Logo"
+              className="h-10 w-auto brightness-0 invert"
+              transformation={[{ width: 120 }]}
+            />
+            <p className="text-sm text-gray-400 mt-4">
+              © 2025 AKSA BUMI LANGIT
+            </p>
+          </div>
+        </footer>
+      </div>
+    </ImageKitProvider>
+  );
+}-2 gap-8">
             <div className="relative rounded-lg overflow-hidden aspect-video">
               {/* PERUBAHAN: Ganti Image dari next/image ke IKImage */}
               <IKImage 
@@ -366,3 +319,153 @@ const FilmWebsite = () => {
 };
 
 export default FilmWebsite;
+"use client";
+
+import React, { useState } from "react";
+import {
+  Play,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+// ✅ ImageKit SDK resmi terbaru
+import { ImageKitProvider, IKImage } from "@imagekit/react";
+
+export default function FilmWebsite() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const imageKitUrlEndpoint = "https://ik.imagekit.io/1iae3lh39/";
+
+  const inReleaseMovies = [
+    { title: "Negeri Dongeng", image: "poster-ng.jpg", status: "NEGERI DONGENG" },
+    { title: "Nona", image: "poster-n.jpg", status: "NONA" },
+    { title: "Tegar", image: "poster-t.jpg", status: "TEGAR" },
+    { title: "Maira", image: "poster-tt.jpg", status: "TEMAN TEGAR MAIRA" },
+    { title: "Alang-Alang", image: "poster-a.jpg", status: "ALANG-ALANG" },
+  ];
+
+  const trailers = [
+    { title: "NEGERI DONGENG", videoId: "50aKtuwUuV4" },
+    { title: "NONA", videoId: "SO1NGdWGASY" },
+    { title: "TEGAR", videoId: "qARKg4kVxLs" },
+    { title: "TEMAN TEGAR MAIRA", videoId: "fgLbajva8k4" },
+    { title: "ALANG-ALANG", videoId: "dQw4w9WgXcQ" },
+  ];
+
+  return (
+    <ImageKitProvider urlEndpoint={imageKitUrlEndpoint}>
+      <div className="bg-black text-white min-h-screen">
+
+        {/* HERO */}
+        <section className="relative h-screen">
+          <IKImage
+            path="cover_maira.webp"
+            alt="Teman Tegar Maira"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
+
+          <div className="absolute bottom-8 left-0 right-0 px-6">
+            <div className="bg-black/60 rounded-full px-6 py-4 flex items-center justify-between">
+              <ChevronLeft />
+              <div className="text-sm">COMING SOON IN THEATRES</div>
+              <ChevronRight />
+            </div>
+          </div>
+        </section>
+
+        {/* IN RELEASE */}
+        <section className="relative py-16 px-6">
+          <div className="absolute inset-0 opacity-30">
+            <IKImage
+              path="bg.jpg"
+              alt="Background"
+              className="w-full h-full object-cover"
+              transformation={[{ quality: 60 }]}
+            />
+          </div>
+
+          <h2 className="relative text-4xl font-bold mb-8">
+            In Release
+          </h2>
+
+          <div className="relative grid grid-cols-2 md:grid-cols-5 gap-6">
+            {inReleaseMovies.map((movie, i) => (
+              <div key={i} className="group">
+                <div className="relative aspect-[2/3] overflow-hidden rounded-lg">
+                  <IKImage
+                    path={movie.image}
+                    alt={movie.title}
+                    className="w-full h-full object-cover"
+                    transformation={[{ width: 400 }]}
+                  />
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                    <Play size={48} />
+                  </div>
+                </div>
+
+                <div className="text-sm mt-2">{movie.status}</div>
+                <div className="flex gap-2 mt-2">
+                  <Button size="sm">WATCH</Button>
+                  <Button size="sm" variant="secondary">
+                    TRAILER
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* TRAILERS */}
+        <section className="py-16 px-6 bg-gray-900">
+          <h2 className="text-4xl font-bold mb-8">
+            Trailers & Videos
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {trailers.map((t, i) => (
+              <div key={i}>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${t.videoId}`}
+                    className="w-full h-full"
+                    loading="lazy"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="mt-2 text-sm">{t.title}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer className="relative py-12 px-6">
+          <div className="absolute inset-0">
+            <IKImage
+              path="bg-footer.jpg"
+              alt="Footer"
+              className="w-full h-full object-cover"
+              transformation={[{ quality: 60 }]}
+            />
+            <div className="absolute inset-0 bg-black/70" />
+          </div>
+
+          <div className="relative">
+            <IKImage
+              path="logo_aksa.png"
+              alt="Aksa Logo"
+              className="h-10 w-auto brightness-0 invert"
+              transformation={[{ width: 120 }]}
+            />
+            <p className="text-sm text-gray-400 mt-4">
+              © 2025 AKSA BUMI LANGIT
+            </p>
+          </div>
+        </footer>
+      </div>
+    </ImageKitProvider>
+  );
+}
