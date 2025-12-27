@@ -31,7 +31,7 @@ export default function Page() {
         {/* HERO */}
         <section className="relative h-screen">
           <Image
-            src="/cover_maira.webp"
+            src="/cover_maira.jpg"
             alt="Teman Tegar Maira"
             width={1920}
             height={1080}
